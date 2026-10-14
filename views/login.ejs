@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập hệ thống</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EBF3FE;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-card {
+            background-color: #FFFFFF;
+            padding: 35px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 360px;
+        }
+
+        h2 {
+            color: #1976D2;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1976D2;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: #1976D2;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #1565C0;
+        }
+
+        .error-box {
+            background-color: #FFEBEE;
+            color: #C62828;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            text-align: center;
+            border: 1px solid #EF9A9A;
+        }
+
+        .hint {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #666;
+            background-color: #F5F5F5;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-card">
+        <h2>ĐĂNG NHẬP</h2>
+
+        <% if (errorMessage) { %>
+            <div class="error-box">
+                <%= errorMessage %>
+            </div>
+            <% } %>
+
+                <form action="/auth/login" method="POST">
+                    <div class="form-group">
+                        <label>Tên đăng nhập:</label>
+                        <input type="text" name="username" placeholder="Nhập username" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label>Mật khẩu:</label>
+                        <input type="password" name="password" placeholder="Nhập password" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Đăng nhập</button>
+                </form>
+
+                <div class="hint">
+                    <b>Tài khoản test cho giảng viên:</b><br>
+                    • Admin: <code>admin</code> / <code>admin123</code> (Đầy đủ quyền)<br>
+                    • Staff: <code>staff</code> / <code>staff123</code> (Chỉ xem/thêm)
+                </div>
+    </div>
+</body>
+
+</html>

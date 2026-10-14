@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Product Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EBF3FE;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header-bar {
+            width: 80%;
+            max-width: 900px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            box-sizing: border-box;
+        }
+
+        .user-info {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+            color: white;
+            background-color: <%=currentUser && currentUser.role==='admin' ? '#E53935': '#1E88E5' %>;
+        }
+
+        .btn-logout {
+            background-color: #F44336;
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #1976D2;
+            font-size: 32px;
+            margin-bottom: 25px;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 900px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background-color: #1976D2;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #E0E0E0;
+            color: #333333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #F9F9F9;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-update {
+            background-color: #1E88E5;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .btn-delete {
+            background-color: #FB8C00;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .btn-create {
+            display: inline-block;
+            background-color: #1976D2;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Thanh hiển thị trạng thái đăng nhập -->
+    <div class="header-bar">
+        <div class="user-info">
+            Xin chào: <b>
+                <%= currentUser ? currentUser.fullName : 'Guest' %>
+            </b>
+            (<span class="role-badge">
+                <%= currentUser ? currentUser.role.toUpperCase() : '' %>
+            </span>)
+        </div>
+        <a href="/auth/logout" class="btn-logout">Đăng xuất</a>
+    </div>
+
+    <div class="container" style="text-align: center;">
+        <h1>Product Orders</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer Name</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Order Date</th>
+                    <th>Total Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (orders && orders.length> 0) { %>
+                    <% orders.forEach(order=> { %>
+                        <tr>
+                            <td>
+                                <%= order.customerName %>
+                            </td>
+                            <td>
+                                <%= order.productName %>
+                            </td>
+                            <td>
+                                <%= order.quantity %>
+                            </td>
+                            <td>
+                                <%= new Date(order.orderDate).toLocaleDateString('en-US') %>
+                            </td>
+                            <td>
+                                <%= order.totalPrice.toLocaleString() %> VND
+                            </td>
+                            <td>
+                                <% if (currentUser && currentUser.role==='admin' ) { %>
+                                    <div class="action-btns">
+                                        <a href="/orders/update/<%= order._id %>" class="btn-update">Update</a>
+                                        <form action="/orders/delete/<%= order._id %>" method="POST"
+                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này?');">
+                                            <button type="submit" class="btn-delete">Delete</button>
+                                        </form>
+                                    </div>
+                                    <% } else { %>
+                                        <span style="font-size: 12px; color: #888; font-style: italic;">Chỉ xem (Không
+                                            có quyền)</span>
+                                        <% } %>
+                            </td>
+                        </tr>
+                        <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="6" style="text-align: center; color: #777;">Chưa có đơn hàng nào.</td>
+                                </tr>
+                                <% } %>
+            </tbody>
+        </table>
+
+        <a href="/orders/create" class="btn-create">Create New Order</a>
+    </div>
+</body>
+
+</html>
