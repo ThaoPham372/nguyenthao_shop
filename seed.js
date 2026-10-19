@@ -10,7 +10,6 @@ const seedData = async () => {
         await mongoose.connect(process.env.MONGODB_URI);
         console.log("Đã kết nối MongoDB để khởi tạo dữ liệu...");
 
-        // 1. Tạo User mẫu
         await User.deleteMany({});
         const hashedPasswordAdmin = await bcrypt.hash('admin123', 10);
         const hashedPasswordStaff = await bcrypt.hash('staff123', 10);
@@ -31,7 +30,6 @@ const seedData = async () => {
         ]);
         console.log("✅ Đã tạo tài khoản mẫu (Admin & Staff)!");
 
-        // 2. Tạo Product mẫu
         await Product.deleteMany({});
         await Product.create([
             {
@@ -57,7 +55,6 @@ const seedData = async () => {
             }
         ]);
 
-        // 3. Tạo Order mẫu
         await Order.deleteMany({});
         await Order.create([
             {

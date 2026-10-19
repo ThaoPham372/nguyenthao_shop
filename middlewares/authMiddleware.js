@@ -1,4 +1,3 @@
-// 1. Authentication (Xác thực: Đã đăng nhập chưa?)
 const isAuthenticated = (req, res, next) => {
     if (req.session && req.session.user) {
         return next();
@@ -6,7 +5,6 @@ const isAuthenticated = (req, res, next) => {
     return res.redirect('/auth/login');
 };
 
-// 2. Authorization (Phân quyền: Có đúng quyền cho phép không?)
 const authorizeRole = (...allowedRoles) => {
     return (req, res, next) => {
         if (!req.session || !req.session.user) {
